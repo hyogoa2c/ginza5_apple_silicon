@@ -1,0 +1,14 @@
+version: "3.1"
+
+services:
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    image: ginza
+    container_name: ginza
+    tty: true
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - "./work:/home/work"

@@ -1,0 +1,25 @@
+FROM python:3.9-buster
+USER root
+
+COPY requirements.txt .
+
+RUN apt update && \
+    apt install -y --no-install-recommends \
+    git wget curl make sudo\
+    mecab mecab-ipadic-utf8 libmecab-dev && \
+    apt autoremove -y &&\
+    apt clean &&\
+    git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git && \
+    cd mecab-ipadic-neologd && \
+    ./bin/install-mecab-ipadic-neologd -n -y && \
+    cp /etc/mecabrc /usr/local/etc/
+
+# install rust and set path for Sudachipy in aarch64 env
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
+
+RUN pip install --upgrade pip && \
+    pip install setuptools_rust && \
+    pip install --no-cache-dir -r requirements.txt
+
+WORKDIR /home/work/
