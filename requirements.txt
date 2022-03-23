@@ -3,10 +3,11 @@ jupyterlab
 requests
 mecab-python3
 pandas
+numpy
+sklearn
 matplotlib
 flake8
 wordcloud
 ginza
 ja_ginza_electra
 ja_ginza
-sklearn
